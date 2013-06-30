@@ -20,6 +20,12 @@ def read_file(file)
     return data
 end
 
+def ssh_access(ip, userssh)
+
+    ssh_cmd = "ssh #{userssh}@#{ip}"
+    system(ssh_cmd)
+end
+
 if ARGV[0] == "--help"
     puts
     puts "Ruby script to get lxc container ip and connect with ssh\n"
@@ -27,8 +33,11 @@ if ARGV[0] == "--help"
     puts
     puts " --help  	 To get this help"
     puts "-n $NAME 	 To get ip of $NAME lxc container"
-    puts "-s 		 Enter to container using ssh, is necessary options -n and -u"
-    puts "-u $USER	 The user to connect by ssh"
+    puts "-s $USER	 Enter to container using ssh, is necessary the option -n before"
+    puts
+    puts "Examples: "
+    puts "ruby lxc-ip.rb -n container-name -s" 
+    puts "ruby lxc-ip.rb -n container-name -s root"
     puts
 
 elsif ARGV[0] == "-n"
@@ -39,6 +48,15 @@ elsif ARGV[0] == "-n"
     end
     ip = get_ip ARGV[1]
     puts ip
+    if ARGV[2] == "-s"
+       if ARGV[3].nil?
+         userssh = "ubuntu"
+       else
+         userssh = ARGV[3]
+       end
+    ssh_access ip, userssh
+    end
+
 end
 
 
