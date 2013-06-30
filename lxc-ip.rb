@@ -2,7 +2,7 @@
 
 def get_ip(name)
     ip = ""
-    file = "/tmp/test"
+    file = "/var/lib/misc/dnsmasq.leases"
     datafile = read_file(file)	        
     datafile.each do |lines|
 	arraylines = lines.split(" ")
